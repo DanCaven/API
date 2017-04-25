@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 import os
 
-client = MongoClient()
+client = MongoClient("mongodb://API:Hd0917Fk@ds117251.mlab.com:17251/heroku_nrsd7fql")
 db = client.school
 
 app = Flask(__name__)
