@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route("/test")
 def test():
-    return "HELLO WORLD"
+    return db.database_names()
 
 @app.route("/NewUser")
 def newUser():
