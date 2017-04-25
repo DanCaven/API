@@ -12,7 +12,17 @@ app = Flask(__name__)
 def test():
     return client.database_names()
 
-@app.route("/NewUser")
+@app.route("/api/AddClass/")
+def addClass():
+    info = request.args
+    user = info.get("user")
+    code = info.get("code")
+    result = db.school.update({"user": user}, {'$push': {'classes': code}})
+    return "added"
+
+
+
+@app.route("/api/NewUser")
 def newUser():
     info = request.args
     user = info.get("user")
@@ -23,7 +33,7 @@ def newUser():
     result =  db.heroku_nrsd7fql.insert_one({"user":user,"word":word,"classes":[]})
     return jsonify(result)
 
-@app.route("/login")
+@app.route("/api/login")
 def login():
     info = request.args
     user = info.get("user")
