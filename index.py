@@ -17,7 +17,7 @@ def addClass():
     info = request.args
     user = info.get("user")
     code = info.get("code")
-    result = db.school.update({"user": user}, {'$push': {'classes': code}})
+    result = db.heroku_nrsd7fql.update({"user": user}, {'$push': {'classes': code}})
     print(result)
     return "added"
 
