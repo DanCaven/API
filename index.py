@@ -20,7 +20,7 @@ def newUser():
     if result != None:
         return "username already present"
     word = info.get("word")
-    result =  db.heroku_nrsd7fql.insert_one()
+    result =  db.heroku_nrsd7fql.insert_one({"user":user,"word":word,"classes":[]})
     return result
 
 @app.route("/login")
