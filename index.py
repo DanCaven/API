@@ -34,7 +34,7 @@ def login():
     word = info.get("pass")
     #print("\t"+result)
     if result["word"] == word:
-        return jsonify(result)
+        return jsonify({"user":result["user"],"classes":result["classes"])
 
 
 @app.route("/api/Agenda/upload/<tpe>")
