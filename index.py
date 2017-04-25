@@ -12,6 +12,16 @@ app = Flask(__name__)
 def test():
     return client.database_names()
 
+@app.route("/api/getuser")
+def getUser():
+    info = request.args
+    user = info.get("user")
+    result = db.heroku_nrsd7fql.find_one({"user":user})
+    if result == None:
+        return "username not present"
+    else:
+        return jsonify({"user":result["user"],"classes":result["classes"]})
+
 @app.route("/api/AddClass/")
 def addClass():
     info = request.args
@@ -20,8 +30,6 @@ def addClass():
     result = db.heroku_nrsd7fql.update({"user": user}, {'$push': {'classes': code}})
     print(result)
     return "added"
-
-
 
 @app.route("/api/NewUser")
 def newUser():
@@ -43,9 +51,10 @@ def login():
     if result == None:
         return "username not present"
     word = info.get("pass")
-    #print("\t"+result)
     if result["word"] == word:
         return jsonify({"user":result["user"],"classes":result["classes"]})
+    else:
+        return "incorrect password"
 
 
 @app.route("/api/Agenda/upload/<tpe>")
