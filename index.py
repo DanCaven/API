@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route("/test")
 def test():
-    return db.database_names()
+    return client.database_names()
 
 @app.route("/NewUser")
 def newUser():
