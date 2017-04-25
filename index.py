@@ -17,9 +17,6 @@ def getUser():
     info = request.args
     user = info.get("user")
     result = db.heroku_nrsd7fql.find_one({"user":user})
-    print()
-    print(result)
-    print()
     if result == None:
         return "username not present"
     else:
@@ -31,7 +28,7 @@ def addClass():
     user = info.get("user")
     code = info.get("code")
     result = db.heroku_nrsd7fql.update({"user": user}, {'$push': {'classes': code}})
-    print(result)
+    #print(result)
     return "added"
 
 @app.route("/api/NewUser")
@@ -49,13 +46,13 @@ def newUser():
 def login():
     info = request.args
     user = info.get("user")
-    #print("\t"+user)
+    ##print("\t"+user)
     result = db.heroku_nrsd7fql.find_one({"user":user})
     if result == None:
         return "username not present"
     word = info.get("pass")
-    print(word)
-    print(result["word"])
+    #print(word)
+    #print(result["word"])
     if result["word"] == word:
         return jsonify({"user":result["user"],"classes":result["classes"]})
     else:
@@ -79,12 +76,12 @@ def add(tpe):
         "time":time,
         "assignments":{}
         }
-        print(clss)
+        #print(clss)
         result = db.heroku_nrsd7fql.insert_one(clss)
-        print(result)
+        #print(result)
         return "confirm"
     elif tpe == "assignments":
-        print("in")
+        #print("in")
         info = request.args
         code = info.get("code").lower()
         name = info.get("name").lower()
@@ -102,7 +99,7 @@ def add(tpe):
                  "flags":[],
                  "topics":topics
                  }
-            print(packet)
+            #print(packet)
             result = db.heroku_nrsd7fql.update(
             {"code":code},
             {"$set": {
@@ -110,7 +107,7 @@ def add(tpe):
                 },
             }
             )
-            print(result)
+            #print(result)
         return "doen"
     else:
         return "invlaid"
@@ -124,27 +121,27 @@ def flag():
     code = info.get("code").lower()
     flag = info.get("flag").lower()
     name = info.get("name").lower()
-    #print(info)
+    ##print(info)
     result = db.heroku_nrsd7fql.find_one({"code":code})
-    print((result))
+    #print((result))
     assignments = result["assignments"]
     for assignment in assignments:
-        print(assignment)
+        #print(assignment)
         if assignment == name:
-            #print(len(result["assignments"][assignment]["flags"]))
+            ##print(len(result["assignments"][assignment]["flags"]))
             if len(result["assignments"][assignment]["flags"]) > 4:
                 result = db.heroku_nrsd7fql.update(
                 {"code":code},
                 {"$unset":{"assignments."+name:""}}
                 )
-                print(result)
+                #print(result)
                 return "removed"
             else:
                 result = db.heroku_nrsd7fql.update(
                 {"code":code},
                 {"$addToSet": {"assignments."+name+".flags":flag}}
                 )
-                print(result)
+                #print(result)
                 return jsonify("added")
     return "not present"
 
@@ -154,9 +151,9 @@ def retrieve(tpe):
         info = request.args
         name = info.get("name")
         name = str(name).lower()
-        print(name)
+        #print(name)
         cursor = db.heroku_nrsd7fql.find_one({"code":name})
-        print(cursor)
+        #print(cursor)
         # if type(cursor) == None:
         #     return dumps("empty set")
         return dumps(cursor)
@@ -168,7 +165,7 @@ def retrieve(tpe):
         try:
             info = cursor["info"]
         except:
-            print("here")
+            #print("here")
             return jsonify({"info":"not present"})
         for assignment in assignments:
             if assignment["name"] == name:
