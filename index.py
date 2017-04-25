@@ -4,7 +4,7 @@ from bson.json_util import dumps
 import os
 
 client = MongoClient("mongodb://API:Hd0917Fk@ds117251.mlab.com:17251/heroku_nrsd7fql")
-db = client.school
+db = client.heroku_nrsd7fql
 
 app = Flask(__name__)
 
@@ -16,11 +16,11 @@ def test():
 def newUser():
     info = request.args
     user = info.get("user")
-    result = db.school.find_one({"user":user})
+    result = db.heroku_nrsd7fql.find_one({"user":user})
     if result != None:
         return "username already present"
     word = info.get("word")
-    result =  db.school.insert_one({"user":user,"word":word,"classes":[]})
+    result =  db.heroku_nrsd7fql.insert_one()
     return result
 
 @app.route("/login")
@@ -28,7 +28,7 @@ def login():
     info = request.args
     user = info.get("user")
     print(user)
-    result = db.school.find_one({"user":user})
+    result = db.heroku_nrsd7fql.find_one({"user":user})
     if result == None:
         return "username not present"
     word = info.get("pass")
@@ -40,7 +40,7 @@ def login():
 @app.route("/api/Agenda/upload/<tpe>")
 def add(tpe):
     if tpe == "class":
-        result = db.school.find_one({"code":request.args.get("code")})
+        result = db.heroku_nrsd7fql.find_one({"code":request.args.get("code")})
         if result != None:
             return jsonify("present")
         info = request.args
@@ -55,7 +55,7 @@ def add(tpe):
         "assignments":{}
         }
         print(clss)
-        result = db.school.insert_one(clss)
+        result = db.heroku_nrsd7fql.insert_one(clss)
         print(result)
         return "confirm"
     elif tpe == "assignments":
@@ -66,7 +66,7 @@ def add(tpe):
         due = info.get("due").lower()
         points = info.get("points").lower()
         topics = info.get("topics").lower()
-        cursor = db.school.find_one({"code":code})
+        cursor = db.heroku_nrsd7fql.find_one({"code":code})
         if 1==2:
             return "never"   ##  need to find a way to check if assignment is already present
         #     return cursor["assignments"][name]
@@ -78,7 +78,7 @@ def add(tpe):
                  "topics":topics
                  }
             print(packet)
-            result = db.school.update(
+            result = db.heroku_nrsd7fql.update(
             {"code":code},
             {"$set": {
                     "assignments."+name:packet
@@ -100,7 +100,7 @@ def flag():
     flag = info.get("flag").lower()
     name = info.get("name").lower()
     #print(info)
-    result = db.school.find_one({"code":code})
+    result = db.heroku_nrsd7fql.find_one({"code":code})
     print((result))
     assignments = result["assignments"]
     for assignment in assignments:
@@ -108,14 +108,14 @@ def flag():
         if assignment == name:
             #print(len(result["assignments"][assignment]["flags"]))
             if len(result["assignments"][assignment]["flags"]) > 4:
-                result = db.school.update(
+                result = db.heroku_nrsd7fql.update(
                 {"code":code},
                 {"$unset":{"assignments."+name:""}}
                 )
                 print(result)
                 return "removed"
             else:
-                result = db.school.update(
+                result = db.heroku_nrsd7fql.update(
                 {"code":code},
                 {"$addToSet": {"assignments."+name+".flags":flag}}
                 )
@@ -130,7 +130,7 @@ def retrieve(tpe):
         name = info.get("name")
         name = str(name).lower()
         print(name)
-        cursor = db.school.find_one({"code":name})
+        cursor = db.heroku_nrsd7fql.find_one({"code":name})
         print(cursor)
         # if type(cursor) == None:
         #     return dumps("empty set")
@@ -139,7 +139,7 @@ def retrieve(tpe):
         info = request.args
         code = info.get("code")
         name = info.get("name")
-        assignments = school[code]["assignments"]
+        assignments = heroku_nrsd7fql[code]["assignments"]
         try:
             info = cursor["info"]
         except:
