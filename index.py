@@ -18,6 +18,7 @@ def addClass():
     user = info.get("user")
     code = info.get("code")
     result = db.school.update({"user": user}, {'$push': {'classes': code}})
+    print(result)
     return "added"
 
 
