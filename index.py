@@ -21,7 +21,7 @@ def newUser():
         return "username already present"
     word = info.get("word")
     result =  db.heroku_nrsd7fql.insert_one({"user":user,"word":word,"classes":[]})
-    return result
+    return jsonify(result)
 
 @app.route("/login")
 def login():
