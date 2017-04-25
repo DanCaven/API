@@ -51,6 +51,8 @@ def login():
     if result == None:
         return "username not present"
     word = info.get("pass")
+    print(word)
+    print(result["word"])
     if result["word"] == word:
         return jsonify({"user":result["user"],"classes":result["classes"]})
     else:
