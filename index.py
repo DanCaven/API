@@ -17,6 +17,7 @@ def getUser():
     info = request.args
     user = info.get("user")
     result = db.heroku_nrsd7fql.find_one({"user":user})
+    print(result)
     if result == None:
         return "username not present"
     else:
