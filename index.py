@@ -27,14 +27,14 @@ def newUser():
 def login():
     info = request.args
     user = info.get("user")
-    print(user)
+    print("\t"+user)
     result = db.heroku_nrsd7fql.find_one({"user":user})
     if result == None:
         return "username not present"
     word = info.get("pass")
-    print(result)
+    print("\t"+result)
     if result["word"] == word:
-        return "verified"
+        return jsonify(result)
 
 
 @app.route("/api/Agenda/upload/<tpe>")
