@@ -40,7 +40,7 @@ def newUser():
         return "username already present"
     word = info.get("word")
     result =  db.heroku_nrsd7fql.insert_one({"user":user,"word":word,"classes":[]})
-    return jsonify(result)
+    return "user added"
 
 @app.route("/api/login")
 def login():
