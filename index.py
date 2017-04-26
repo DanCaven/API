@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from bson.json_util import dumps
 import os
+import datetime
 
 client = MongoClient("mongodb://API:Hd0917Fk@ds117251.mlab.com:17251/heroku_nrsd7fql")
 db = client.heroku_nrsd7fql
@@ -85,7 +86,10 @@ def add(tpe):
         info = request.args
         code = info.get("code").lower()
         name = info.get("name").lower()
-        due = info.get("due").lower()
+        due = info.get("due")
+        due = due.split("-")
+        date = datetime.date(due[0],due[1],due[2])
+        #date(2002, 12, 4).isoformat() == '2002-12-04'
         points = info.get("points").lower()
         topics = info.get("topics").lower()
         cursor = db.heroku_nrsd7fql.find_one({"code":code})
@@ -94,7 +98,7 @@ def add(tpe):
         #     return cursor["assignments"][name]
         else:
             packet = {
-                 "due":due,
+                 "due":date,
                  "points":points,
                  "flags":[],
                  "topics":topics
