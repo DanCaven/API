@@ -175,34 +175,6 @@ def retrieve(tpe):
     else:
         return "code not found"
 
-################################################################################
-#################################User Interface#################################
-################################################################################
-
-
-# @app.route("/login", methods=["GET","POST"])
-# def login():
-#     if "log" in request.args:
-#         info = (request.form)
-#         user = info['user']
-#         if user in data and data[user]["pass"] == info['pass']:
-#             return redirect(url_for('profile', username = "dan"))
-#     return render_template("login.html")
-#
-# @app.route("/profile")
-# def profile():
-#     user = request.args.get("username")
-#     return render_template("profile.html", user=user, classes=data[user]['classes'])
-#
-# @app.route("/classes")
-# def classes():
-#     clss = request.args.get("clss")
-#     url = "http://localhost:5000/api/Agenda/get/class"
-#     querystring = {"code":clss}
-#     packet = requests.request("GET", url, params=querystring)
-#     return packet
-#
-
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
