@@ -88,7 +88,7 @@ def add(tpe):
         name = info.get("name").lower()
         due = info.get("due")
         due = due.split("-")
-        date = datetime.date(due[0],due[1],due[2])
+        date = datetime.date(int(due[0]),int(due[1]),int(due[2]))
         #date(2002, 12, 4).isoformat() == '2002-12-04'
         points = info.get("points").lower()
         topics = info.get("topics").lower()
